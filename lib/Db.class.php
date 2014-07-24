@@ -5,7 +5,7 @@
  * 
  * Normal DB class with singleton pattern
  * 
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package CRM
  * 
@@ -73,7 +73,7 @@ class Db {
 
     /**
      * wrapper function for update query
-     * @author DAve Jay
+     * @author Hardik Shah
      * @param String $table
      * @param Array $array list of fields
      * @param String $where where condition
@@ -107,7 +107,7 @@ class Db {
 
     /**
      * wrapper function for insert query
-     * @author DAve Jay
+     * @author Hardik Shah
      * @param String $table
      * @param Array $array list of fields
 

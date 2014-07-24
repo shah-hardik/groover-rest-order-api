@@ -1,10 +1,11 @@
 <?php
 
+
 $urlArgs = _cg("url_vars");
 
 //$api = new apiZazzle();
-//$api->getOrders();
-
+//$api->importOrders();
+//die;
 
 $orders = q("select * from orders ");
 

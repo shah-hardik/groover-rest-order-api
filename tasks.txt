@@ -1,0 +1,27 @@
+July 24, 2014
+
+- add the AckOrder method please. 
+- Order will have multiple items
+
+Bluhost:
+Login URL: groverallmanusa.com/cpanel
+Username: groverallmanusa.com
+Password: PICCT0100camo****
+Setup at: www.sevenkings.com/zazzle
+Applicatin is setup here: http://sevenkings.groverallmanusa.com/zazzle/
+
+FTP: 
+FTP Server: ftp.groverallmanusa.com
+username: zazzle@groverallmanusa.com
+password: I@{eT$Z2uI%M
+
+Database:groveral_zazzle
+user: groveral_zazzle
+password: 2I&i,XS~?Nhd
+
+
+- sync to Zazzle every 6 hours
+- add a manual sync button?
+- Ability to download the artwork and packing sheet as a PDF. 
+- Can you make the packing sheet open in a pop-up window, and the artwork PDF to download automatically
+ 

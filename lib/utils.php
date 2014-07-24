@@ -4,7 +4,7 @@
  * General Functions
  * 
  * 
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package Grover CMS
  * 
@@ -15,7 +15,7 @@
  * @param String $var
  * @return Boolean
  * 
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package Grover CMS
  * 
@@ -31,7 +31,7 @@ function _set($var) {
  * @param String $var
  * @return String $var
  * 
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package Grover CMS
  * 
@@ -45,7 +45,7 @@ function _e(&$s, $a = null) {
  * 
  * @param String $string
  * @return String escaped string
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package Grover CMS
  */
@@ -57,7 +57,7 @@ function _escape($string) {
 /**
  * Wrapper function for db insert query
  * 
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package Grover CMS
  */
@@ -84,7 +84,7 @@ function qs($query) {
 /**
  * Wrapper function for db update query
  * 
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package Grover CMS
  */
@@ -99,7 +99,7 @@ function qu($table, $fields, $condition) {
  * @param String $timestamp optional unixtimestamp
  * @return String $date
  * 
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package Grover CMS
  */
@@ -296,4 +296,8 @@ function resolveTPL() {
             break;
     }
     return $tpl;
+}
+function getOrderItems($order_id){
+    $items = q("Select * from order_items where OrderId = '{$order_id}' ");
+    return $items;
 }

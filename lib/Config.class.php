@@ -5,7 +5,7 @@
  * 
  * Class to handle config operations
  * 
- * @author Dave Jay
+ * @author Hardik Shah
  * @version 1.0
  * @package CRM
  * 
