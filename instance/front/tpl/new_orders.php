@@ -14,7 +14,7 @@
                 <table class="table table-hover" id="table" >
                     <thead>
                         <tr>
-                            <th><input type="checkbox"  /></th>
+                            <th><input type="checkbox" onclick="call();" /></th>
                             <th>Order Detail</th>
                             <th>Order ID</th>
                             <th style="text-align: center">Order Items</th>
@@ -33,8 +33,8 @@
                                 <td><input type="checkbox"  /></td>
                                 <td><?php print date("d/m/Y", strtotime($each_order['order_date'])) ?></td>
                                 <td><?php print $each_order['order_id'] ?></td>
-                                <td>
-                                    <?php $items = getOrderItems($each_order['order_id']); ?>
+<!--                               <td>
+                                    <?php $items = getOrderItems($each_order['order_id']);?>
                                     <table class="table table-no-hover table-bordered table-condensed">
                                         <?php foreach ($items as $each_item): ?>
                                             <tr>
@@ -59,8 +59,13 @@
                                 </td>
                                 <td>
                                     <span onclick="window.open('<?php print $each_order['packing_sheet_url'] ?>');" class="label label-success"><i class="fa fa-print">&nbsp;</i>Print</span>
-                                </td>
+                                </td>-->
                                 <td></td>
+                                <td></td>
+                                <td>
+                                    <span onclick="window.open('<?php print $each_order['packing_sheet_url'] ?>');" class="label label-success"><i class="fa fa-print">&nbsp;</i>Print</span>
+                          
+                                </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
