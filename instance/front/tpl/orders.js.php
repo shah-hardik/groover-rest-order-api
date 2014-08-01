@@ -6,6 +6,7 @@
  var searchParams = {};
     $(document).ready(function() {
          $("#table").dataTable();
+         $("#shipping").val('');
         
         searchParams = {
             filter: '<?php print $urlArgs[1] ?>',
@@ -30,6 +31,18 @@
             $(".breakdowns").hide();
         });
     });
+    function generate(val){
+        showWait();
+        
+        $.ajax({
+            url: _U + 'new_orders',
+            data: {generate: 1,label: $("#shipping").val(),val:val},
+            success: function(r) {
+                hideWait();
+                //$("#orderlistId").html(r);
+            }
+        });
+    }
     function _doLoadFilter() {
 
         showWait();

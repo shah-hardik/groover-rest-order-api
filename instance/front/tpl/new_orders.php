@@ -9,15 +9,6 @@
                 <div class="col-lg-7">
                     
                     <div class="form-group">
-                        <label for="inputquestion" class="col-lg-4 control-label">Select To Date</label>
-                        <div class="col-lg-8">
-                                <div class="input-group">
-                                    <input type="text" class="form-control input-sm" id="to_date" name="to_date"  data-toggle="tooltip"  data-original-title="To Date" value="<?php print $display_to; ?>" >
-                                    <span  id="span_to" name="span_to" onclick="$('#to_date').datepicker('show');"  class="input-group-addon pointer"><i class="glyphicon glyphicon-calendar"></i></span>
-                                </div>
-                               </div>
-                    </div>
-                    <div class="form-group">
                         <label for="inputquestion" class="col-lg-4 control-label">Select From Date</label>
                         <div class="col-lg-8">
                                  <div class="input-group">
@@ -26,6 +17,16 @@
                                 </div>
                             </div>
                      </div>
+                    
+                    <div class="form-group">
+                        <label for="inputquestion" class="col-lg-4 control-label">Select To Date</label>
+                        <div class="col-lg-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-sm" id="to_date" name="to_date"  data-toggle="tooltip"  data-original-title="To Date" value="<?php print $display_to; ?>" >
+                                    <span  id="span_to" name="span_to" onclick="$('#to_date').datepicker('show');"  class="input-group-addon pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                               </div>
+                    </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="form-group " >
@@ -120,7 +121,10 @@
                                 </td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
+                                <td><input class="form-control" type="text" name="shipping" id="shipping" />
+                                    <br><br>
+                                    <input class="btn btn-success btn-small" type="button" id="btn1" value="Generate Label" onclick="generate(<?php print $each_order['id'] ?>);"> </input>
+                                </td>
                                 <td></td>
                                 <td></td>
                             </tr>
