@@ -1,20 +1,71 @@
-<div class="listAffiliates actionItem">
+
+<div  class="col-md-12 col-lg-12 ">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div style="float:left;padding-top:8px"><b>List of New Orders</b></div> 
+        <div class="panel-heading ">
+            <b>Filter Order </b>
+        </div>
+        <div class="panel-body" id="filterdate">
+            <form class="form-horizontal">
+                <div class="col-lg-7">
+                    
+                    <div class="form-group">
+                        <label for="inputquestion" class="col-lg-4 control-label">Select To Date</label>
+                        <div class="col-lg-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-sm" id="to_date" name="to_date"  data-toggle="tooltip"  data-original-title="To Date" value="<?php print $display_to; ?>" >
+                                    <span  id="span_to" name="span_to" onclick="$('#to_date').datepicker('show');"  class="input-group-addon pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                               </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputquestion" class="col-lg-4 control-label">Select From Date</label>
+                        <div class="col-lg-8">
+                                 <div class="input-group">
+                                    <input type="text" class="form-control input-sm"  id="from_date" name="from_date" data-toggle="tooltip"  data-original-title="From Date" value="<?php print $display_from; ?>" />
+                                    <span  id="span_from" name="span_from" onclick="$('#from_date').datepicker('show');"  class="input-group-addon pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                     </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group " >
+
+                        <div>
+                            <button type="button" onclick="_doLoadFilter();"  class="btn btn-success">Search</button>
+                            <button type="button" onclick="location.reload()"  class="btn btn-success">Reset</button>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-4">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default ">
+  <div class="panel-heading col-md-12 col-lg-12">
+
+        <div style="float:left;padding-top:8px"><b>List of New Orders</b></div> 
             <div style="float:right">
             </div> 
             <div class="clearfix"></div>
-        </div>
-        <div class="panel-body">
-            <?php
+        
+        
+    </div>
+    <div class="panel-body">
+        <?php
             $cr = 1;
             if (!empty($orders)):
                 ?>
                 <table class="table table-hover" id="table" >
                     <thead>
                         <tr>
-                            <th><input type="checkbox" onclick="call();" /></th>
+                            <th><input type="checkbox"/></th>
+                            <th></th>
                             <th>Order Detail</th>
                             <th>Order ID</th>
                             <th style="text-align: center">Order Items</th>
@@ -27,10 +78,11 @@
                             <th>Updates</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="orderlistId">
                         <?php foreach ($orders as $each_order): ?>
                             <tr id="<?php print $each_task['id']; ?>">
                                 <td><input type="checkbox"  /></td>
+                                <td><?php print $cr; ?></td>
                                 <td><?php print date("d/m/Y", strtotime($each_order['order_date'])) ?></td>
                                 <td><?php print $each_order['order_id'] ?></td>
 <!--                               <td>
@@ -79,8 +131,9 @@
             <?php else: ?>
                 <div>No Orders available</div>
             <?php endif; ?>
-        </div>
+        
     </div>
+    
 </div>
 <?php include_once('message.php') ?>
 

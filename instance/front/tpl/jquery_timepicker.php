@@ -1,0 +1,2 @@
+<script type="text/javascript" src="<?php print _MEDIA_URL ?>js/timepicker/jquery.timepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php print _MEDIA_URL ?>js/timepicker/jquery.timepicker.css" />
