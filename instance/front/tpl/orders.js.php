@@ -1,13 +1,16 @@
 <?php include "jquery_ui.php"; ?>
 <?php include "paggingDataTable.php"; ?>
-<?php include "jquery_timepicker.php"; ?>
+<?php //include "jquery_timepicker.php";     ?>
 <script type="text/javascript" >
-  
- var searchParams = {};
+
+    var searchParams = {};
     $(document).ready(function() {
-         $("#table").dataTable();
-         $("#shipping").val('');
-        
+        $("#table").dataTable({
+            "ordering": false,
+            "info": false
+        });
+
+
         searchParams = {
             filter: '<?php print $urlArgs[1] ?>',
             date: ''
@@ -26,30 +29,29 @@
                 searchParams.date = e;
             }
         });
-        
+
         $(document).click(function() {
             $(".breakdowns").hide();
         });
     });
-    function generate(val){
+    function saveWeight(id) {
         showWait();
-        
+        var val = $("#weight_" + id).val();
         $.ajax({
             url: _U + 'new_orders',
-            data: {generate: 1,label: $("#shipping").val(),val:val},
+            data: {generate: 1, val: val, id: id},
             success: function(r) {
                 hideWait();
-                //$("#orderlistId").html(r);
             }
         });
     }
     function _doLoadFilter() {
 
         showWait();
-        
+
         $.ajax({
             url: _U + 'new_orders',
-            data: {customFilter: 1,to_date_val: $("#to_date").val(),from_date_val: $("#from_date").val()},
+            data: {customFilter: 1, to_date_val: $("#to_date").val(), from_date_val: $("#from_date").val()},
             success: function(r) {
                 hideWait();
                 $("#orderlistId").html(r);
@@ -57,4 +59,27 @@
         });
     }
 
+
+    function doCheckAll(checked) {
+        if (checked) {
+            $(".chkAll:visible").prop("checked", "checked");
+        } else {
+            $(".chkAll").prop("checked", "");
+        }
+    }
+
+    function doUpdateOrders() {
+        showWait('Please wait while system retrieves new orders...');
+        $.ajax({
+            url: _U + 'new_orders',
+            data: {newOrders: 1},
+            success: function(r) {
+                $("#_genericPopup .modal-body").html('<strong>Orders retrieved successfully. Now reloading</strong>');
+                setTimeout(function() {
+                    hideWait();
+                }, 2000)
+                location.reload();
+            }
+        });
+    }
 </script>

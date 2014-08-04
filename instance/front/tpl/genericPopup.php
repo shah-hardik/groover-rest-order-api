@@ -6,10 +6,11 @@
                 <h4 class="modal-title">Modal title</h4>
             </div>
             <div class="modal-body" style="height:400px;overflow: auto;">
-                
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="doClosePopUp()">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+
             </div>
         </div>
     </div>

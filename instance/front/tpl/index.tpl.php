@@ -14,21 +14,16 @@
         <!--[if lt IE 9]>
           <script src="<?php print _MEDIA_URL ?>js/html5shiv.js"></script>
         <![endif]-->
-        
-        
- <link rel="stylesheet" type="text/css" href="<?php print _MEDIA_URL ?>DataTables-1.10.1/css/jquery.dataTables.css">
- <link href="<?php print _MEDIA_URL ?>css/style.css" rel="stylesheet" type="text/css" />
-  
+
+
+
+
         <style type="text/css">
             h1,h2,h4{color:#00ccff}
             .hover:hover{
                 background-color: #EFEFEF;
             }
-            .btn-success:hover{
-                background-color: #93C616;
-                border-color: #93C616;
-            }
-            .btn-success{
+            .btn-success:hover,.btn-success:focus,.btn-success{
                 background-color: #00ccff;
                 border-color: #00ccff;
             }
@@ -70,7 +65,7 @@
         <?php include $jsInclude; ?>
         <?php include "message.php"; ?>
         <script src="<?php print _MEDIA_URL ?>bootstrap/js/bootstrap.min.js"></script>
-       
+
 
         <?php if ($error): ?>
             <script type="text/javascript">
