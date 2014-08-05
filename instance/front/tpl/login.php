@@ -26,3 +26,5 @@
 
 <div style="background-color: #00ccff;height:18px;position:fixed;bottom:0px;width:100%">
 </div>
+
+<link href="<?php print _MEDIA_URL ?>css/style.css" rel="stylesheet" media="screen" />

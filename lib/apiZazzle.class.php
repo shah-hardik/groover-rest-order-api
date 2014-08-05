@@ -24,6 +24,20 @@ class apiZazzle extends apiCore {
         $this->params['hash'] = md5($this->vendorid . $this->secret);
     }
 
+    /**
+     * ackcall Call definition
+     * https://vendor.zazzle.com/v100/api.aspx?method=ackorder&vendorid=myvendorid&orderid=143123456123456&hash=9a7cb40c3f3ba8c9b42a73ad1969b37a
+     */
+    public function ackOrder($order_id, $type = 'new') {
+        $this->params['method'] = 'ackorder';
+        $this->params['orderid'] = $order_id;
+        $this->params['type'] = $type;
+        $this->params['action'] = 'accept';
+        $this->params['hash'] = md5($this->vendorid . $order_id . 'new' . $this->secret);
+
+        $content = $this->doCall($this->prepareApiUrl());
+    }
+
     public function importOrders() {
         $this->params['method'] = 'listneworders';
 
@@ -59,6 +73,8 @@ class apiZazzle extends apiCore {
                 'Type' => $each_order->ShippingAddress->Type
             );
 
+            $this->ackOrder($orderId);
+
             $orderExists = qs("select order_id from orders where order_id = '{$orderId}' ");
             if (empty($orderExists)) {
                 $orderId = qi("orders", $orderDataArray);
@@ -67,6 +83,8 @@ class apiZazzle extends apiCore {
             }
 
             $lineItems = $each_order->LineItems->LineItem;
+
+
 
             foreach ($lineItems as $each_item) {
                 $itemData = array(

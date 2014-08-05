@@ -297,7 +297,8 @@ function resolveTPL() {
     }
     return $tpl;
 }
-function getOrderItems($order_id){
-    $items = q("Select * from order_items where id = '{$order_id}' ");
+
+function getOrderItems($order_id) {
+    $items = q("Select * from order_items where OrderId = '{$order_id}' ");
     return $items;
 }

@@ -308,8 +308,8 @@ label {
     z-index: 10000 !important;
 }
 .btn-success:hover{
-    background-color: #93C616;
-    border-color: #93C616;
+    background-color: #00ccff;
+    border-color: #00ccff;
 }
 .btn-success{
     background-color: #00ccff;
