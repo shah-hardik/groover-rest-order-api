@@ -9,7 +9,7 @@
  * @package CRM
  * 
  */
-//_R(lr('user'));
+_R(lr('new_orders'));
 
 _cg("page_title", "Dashboard");
 ?>

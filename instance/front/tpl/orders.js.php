@@ -35,7 +35,7 @@
         });
     });
     function saveWeight(id) {
-        showWait();
+        showWait('Please wait while we save weight..');
         var val = $("#weight_" + id).val();
         $.ajax({
             url: _U + 'new_orders',
@@ -47,7 +47,7 @@
     }
     function _doLoadFilter() {
 
-        showWait();
+        showWait('Please wait while we filter your orders');
 
         $.ajax({
             url: _U + 'new_orders',

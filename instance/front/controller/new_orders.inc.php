@@ -1,19 +1,9 @@
 <?php
 
 
+
 $urlArgs = _cg("url_vars");
-
-$api = new apiZazzle();
-$api->ackOrder('2500001102888529157');
-die; 
-
-
-//$api->importOrders();
-//die;
-
 $orders = q("select * from orders ");
-
-
 
 if ($_REQUEST['newOrders'] == 1) {
     $api = new apiZazzle();

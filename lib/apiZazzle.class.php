@@ -38,6 +38,22 @@ class apiZazzle extends apiCore {
         $content = $this->doCall($this->prepareApiUrl());
     }
 
+    public function ListOrderMessages() {
+        $this->params['method'] = 'listordermessages';
+        $content = $this->doCall($this->prepareApiUrl());
+        $xmlData = simplexml_load_string($content);
+
+        $messages = $xmlData->xpath("//Response/Result/Messages/Message");
+        foreach ($messages as $each_message) {
+            $insert_data = array();
+            $insert_data['order_id'] = $each_message->OrderId;
+            $insert_data['message'] = $each_message->Text;
+            $insert_data['message_date'] = $each_message->MessageDate;
+            qi("order_messages", $insert_data);
+            $this->ackOrder($each_message->OrderId, 'message');
+        }
+    }
+
     public function importOrders() {
         $this->params['method'] = 'listneworders';
 
@@ -50,7 +66,6 @@ class apiZazzle extends apiCore {
         $orders = $xmlData->xpath("//Response/Result/Orders/Order");
 
         foreach ($orders as $each_order) {
-
 
             $orderId = $each_order->OrderId;
             $orderDate = date('Y-m-d H:i:s', strtotime($each_order->OrderDate));
@@ -84,8 +99,6 @@ class apiZazzle extends apiCore {
 
             $lineItems = $each_order->LineItems->LineItem;
 
-
-
             foreach ($lineItems as $each_item) {
                 $itemData = array(
                     'LineItemId' => $each_item->LineItemId,
@@ -110,6 +123,43 @@ class apiZazzle extends apiCore {
         }
 
         die;
+    }
+
+    /**
+     * https://vendor.zazzle.com/v100/api.aspx?
+     * method=getshippinglabel&
+     * vendorid=myvendorid&
+     * orderid=143123456123456&
+     * weight=0.7&
+     * format=ZPL&
+     * hash=9a7cb40c3f3ba8c9b42a73ad1969b37a
+     * 
+     * MD5 (Vendor ID+orderid+weight+format+Secret Key)
+     */
+    public function generateLabel($order_id) {
+        $orderData = qs("select * from  orders where order_id = '{$order_id}' ");
+        $weight = $orderData['weight'];
+
+        $weight = $weight ? $weight : '0.1';
+
+        $this->params['method'] = 'getshippinglabel';
+        $this->params['orderid'] = $order_id;
+        $this->params['format'] = 'PDF';
+        $this->params['weight'] = $weight;
+        $this->params['hash'] = md5($this->vendorid . $order_id . $weight . "PDF" . $this->secret);
+
+        $content = $this->doCall($this->prepareApiUrl());
+
+
+
+        $xmlData = simplexml_load_string($content);
+        $labelData = $xmlData->xpath("//Response/Result/ShippingInfo/ShippingDocuments/ShippingDocument");
+
+        foreach ($labelData as $value) {
+            $url = $value->Url;
+        }
+
+        return $url;
     }
 
 }

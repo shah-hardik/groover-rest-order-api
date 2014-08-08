@@ -1,4 +1,4 @@
-<?php //include "new_orders_filter.php";   ?>
+<?php //include "new_orders_filter.php";         ?>
 <div class="row">
     <div  class="col-md-12 col-lg-12 ">
         <button class="btn btn-success" onclick="doUpdateOrders()"><i class="fa fa-refresh">&nbsp;</i> Get New Orders</button>
@@ -46,7 +46,7 @@
                                 <table class="table table-no-hover table-bordered table-condensed">
                                     <?php foreach ($items as $each_item): ?>
                                         <tr>
-                                            <td><!--<img src="<?php print $each_item['Previews'] ?>" width="50" />--> </td>
+                                            <td><img src="<?php print $each_item['Previews'] ?>" width="50" /></td>
                                             <td><?php print $each_item['LineItemId'] ?></td>
                                             <td><?php print $each_item['Description'] ?></td>
                                             <td><?php print $each_item['Quantity'] ?></td>
@@ -67,7 +67,7 @@
                                 <span style="cursor:pointer;font-size:10px;" onclick="window.open('<?php print $each_order['packing_sheet_url'] ?>');" class="label label-success"><i class="fa fa-print">&nbsp;</i>Print</span>
                             </td>
                             <td>
-                                <span class="label label-warning" style="cursor:pointer;font-size:10px;"><i class="fa fa-download">&nbsp;</i>Download</span>
+                                <a class="label label-warning" style="cursor:pointer;font-size:10px;" target='_blank' href='<?php print $each_item['Previews'] ?>'><i class="fa fa-download">&nbsp;</i>Download</a>
                             </td>
                             <td>
                                 <div class="row">
@@ -79,8 +79,17 @@
                                 <button style="margin-top:4px" class="btn btn-success btn-small" type="button" value="Save" onclick="saveWeight(<?php print $each_order['id'] ?>);" > Save </button>
 
                             </td>
-                            <td><span class="label label-default" style="cursor:pointer;font-size:10px;"><i class="fa fa-print">&nbsp;</i>Print</span></td>
-                            <td>messages</td>
+                            <td><a class="label label-default" target='_blank' href="<?php print _U ?>generate_shipping_label?order_id=<?php print $each_order['order_id'] ?>" style="cursor:pointer;font-size:10px;"><i class="fa fa-print">&nbsp;</i>Print</a></td>
+                            <td>
+                                <?php $messages = q("select * from order_messages where order_id = '{$each_order['order_id']}' order by message_date desc "); ?>
+                                <?php if (!empty($messages)): ?>
+                                    <?php foreach ($messages as $each_message): ?>
+                                        <div style='magin:3px 0px;border-bottom:1px dotted #ECECEC'><?php print $each_message['message'] ?></div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <span style="color:red;font-size:small;">No messages retrieved yet.</span>
+                                <?php endif; ?>
+                            </td>
                             <td>&nbsp;</td>
                         </tr>
                         <?php $cr++; ?>    
