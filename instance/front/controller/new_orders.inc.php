@@ -1,7 +1,9 @@
 <?php
 
-
-
+/**
+ * Can you please re-arrange the table columns to be in this order:
+  Order Date, Order ID, Ship To, Order Items, Artwork, Packing Sheet, Weight, Shipping Label, Messages, Updates.
+ */
 $urlArgs = _cg("url_vars");
 $orders = q("select * from orders ");
 

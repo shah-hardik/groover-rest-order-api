@@ -1,4 +1,4 @@
-<?php //include "new_orders_filter.php";         ?>
+<?php //include "new_orders_filter.php";             ?>
 <div class="row">
     <div  class="col-md-12 col-lg-12 ">
         <button class="btn btn-success" onclick="doUpdateOrders()"><i class="fa fa-refresh">&nbsp;</i> Get New Orders</button>
@@ -25,10 +25,9 @@
                         <th><input type="checkbox" onclick="doCheckAll(this.checked)"/></th>
                         <th>Order Date</th>
                         <th>Order ID</th>
-                        <th style="text-align: center">Order Items</th>
                         <th>Ship To</th>
+                        <th style="text-align: center">Order Items</th>
                         <th>Packing Sheet</th>
-                        <th>Artwork</th>
                         <th>Weight</th>
                         <th>Shipping Label</th>
                         <th>Messages</th>
@@ -42,19 +41,6 @@
                             <td><?php print date("d/m/Y", strtotime($each_order['order_date'])) ?></td>
                             <td><?php print $each_order['order_id'] ?></td>
                             <td>
-                                <?php $items = getOrderItems($each_order['order_id']); ?>
-                                <table class="table table-no-hover table-bordered table-condensed">
-                                    <?php foreach ($items as $each_item): ?>
-                                        <tr>
-                                            <td><img src="<?php print $each_item['Previews'] ?>" width="50" /></td>
-                                            <td><?php print $each_item['LineItemId'] ?></td>
-                                            <td><?php print $each_item['Description'] ?></td>
-                                            <td><?php print $each_item['Quantity'] ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </table>
-                            </td>
-                            <td>
                                 <strong><?php print $each_order['Name'] ?></strong> <br /><br />
                                 <?php print $each_order['Address1'] ?> <br />
                                 <?php print $each_order['Address2'] ?> <br />
@@ -64,10 +50,21 @@
                                 <?php print $each_order['Email'] ?> <br />
                             </td>
                             <td>
-                                <span style="cursor:pointer;font-size:10px;" onclick="window.open('<?php print $each_order['packing_sheet_url'] ?>');" class="label label-success"><i class="fa fa-print">&nbsp;</i>Print</span>
+                                <?php $items = getOrderItems($each_order['order_id']); ?>
+                                <table class="table table-no-hover table-bordered table-condensed">
+                                    <?php foreach ($items as $each_item): ?>
+                                        <tr>
+                                            <td><img src="<?php print $each_item['Previews'] ?>" width="50" /></td>
+                                            <td><?php print $each_item['LineItemId'] ?></td>
+                                            <td><?php print $each_item['Description'] ?></td>
+                                            <td><?php print $each_item['Quantity'] ?></td>
+                                            <td><a class="label label-warning" style="cursor:pointer;font-size:10px;" target='_blank' href='<?php print $each_item['Previews'] ?>'><i class="fa fa-download">&nbsp;</i>Download</a></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </table>
                             </td>
                             <td>
-                                <a class="label label-warning" style="cursor:pointer;font-size:10px;" target='_blank' href='<?php print $each_item['Previews'] ?>'><i class="fa fa-download">&nbsp;</i>Download</a>
+                                <span style="cursor:pointer;font-size:10px;" onclick="window.open('<?php print $each_order['packing_sheet_url'] ?>');" class="label label-success"><i class="fa fa-print">&nbsp;</i>Print</span>
                             </td>
                             <td>
                                 <div class="row">

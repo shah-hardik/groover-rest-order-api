@@ -8,10 +8,13 @@
  * 
  */
 d("Starting Manual Sync");
+_errors_on();
 
 $api = new apiZazzle();
 $api->importOrders();
-$api->ListOrderMessages();
+
+//$api_message = new apiZazzle();
+//$api_message->ListOrderMessages();
 
 
 d("Manual Sync completed");

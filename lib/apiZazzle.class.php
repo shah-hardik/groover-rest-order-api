@@ -15,8 +15,10 @@ class apiZazzle extends apiCore {
 
     public $apiEndpoint = 'api.aspx';
     public $apiURL = 'https://vendor.zazzle.com/v100/';
-    public $vendorid = 'hanson';
-    public $secret = '3f9bf3904b4e6609d46ff6964d8193ac';
+    public $vendorid = 'groverallman';
+    public $secret = '7648b70dac74f090a990451dcfc39a98';
+    public $vendorid_dev = 'hanson';
+    public $secret_dev = '3f9bf3904b4e6609d46ff6964d8193ac';
     public $params = array();
 
     public function __construct() {
@@ -43,6 +45,8 @@ class apiZazzle extends apiCore {
         $content = $this->doCall($this->prepareApiUrl());
         $xmlData = simplexml_load_string($content);
 
+		
+		
         $messages = $xmlData->xpath("//Response/Result/Messages/Message");
         foreach ($messages as $each_message) {
             $insert_data = array();
@@ -64,6 +68,9 @@ class apiZazzle extends apiCore {
         $xmlData = simplexml_load_string($content);
 
         $orders = $xmlData->xpath("//Response/Result/Orders/Order");
+        
+        //d($orders);
+        //die;
 
         foreach ($orders as $each_order) {
 
@@ -88,18 +95,20 @@ class apiZazzle extends apiCore {
                 'Type' => $each_order->ShippingAddress->Type
             );
 
-            $this->ackOrder($orderId);
+            //$this->ackOrder($orderId);
 
-            $orderExists = qs("select order_id from orders where order_id = '{$orderId}' ");
-            if (empty($orderExists)) {
-                $orderId = qi("orders", $orderDataArray);
-            } else {
-                qu("orders", $orderDataArray, " order_id = '{$orderId}' ");
-            }
+//            $orderExists = qs("select order_id from orders where order_id = '{$orderId}' ");
+//            if (empty($orderExists)) {
+//                $orderId = qi("orders", $orderDataArray);
+//            } else {
+//                qu("orders", $orderDataArray, " order_id = '{$orderId}' ");
+//            }
 
             $lineItems = $each_order->LineItems->LineItem;
 
             foreach ($lineItems as $each_item) {
+                d((array)$each_item->Previews->PreviewFile);
+                die;
                 $itemData = array(
                     'LineItemId' => $each_item->LineItemId,
                     'OrderId' => $each_item->OrderId,
@@ -109,20 +118,20 @@ class apiZazzle extends apiCore {
                     'Attributes' => $each_item->Attributes,
                     'Price' => $each_item->Price,
                     'ProductId' => $each_item->ProductId,
-                    'PrintFiles' => $each_item->PrintFiles->PrintFile->Url,
-                    'Previews' => $each_item->Previews->PreviewFile->Url
+//                    'PrintFiles' => $each_item->PrintFiles->PrintFile->Url,
+//                    'Previews' => $each_item->Previews->PreviewFile->Url
+                    
                 );
 
-                $itemExists = qs("select LineItemId from order_items where LineItemId = '{$itemData['LineItemId']}' ");
-                if (!empty($itemExists)) {
-                    qu("order_items", $itemData, " LineItemId = '{$itemData['LineItemId']}' ");
-                } else {
-                    qi("order_items", $itemData);
-                }
+//                $itemExists = qs("select LineItemId from order_items where LineItemId = '{$itemData['LineItemId']}' ");
+//                if (!empty($itemExists)) {
+//                    qu("order_items", $itemData, " LineItemId = '{$itemData['LineItemId']}' ");
+//                } else {
+//                    qi("order_items", $itemData);
+//                }
             }
         }
 
-        die;
     }
 
     /**

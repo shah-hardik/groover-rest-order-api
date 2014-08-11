@@ -11,28 +11,16 @@
  */
 $urlArgs = _cg("url_vars");
 session_start();
-
 if (isset($_REQUEST['sbt_btn'])) {
     $email = _escape($_REQUEST['email']);
     $password = _escape($_REQUEST['password']);
 
-    if ($email == 'admin@admin.com') {
-        $data = Login::doAdminLogin($email, $password);
-        $_SESSION['user'] = $data['user_name'];
-        if ($data != null) {
-            _R('new_orders');
-        } else {
-            $error = "Username Or Password is Wrong!!!";
-        }
+    $data = Login::doAdminLogin($email, $password);
+    $_SESSION['user'] = $data['user_name'];
+    if ($data != null) {
+        _R('new_orders');
     } else {
-        $data = Login::doUserLogin($email, $password);
-        $_SESSION['user'] = $data['username'];
-        if ($data != null) {
-            _R('new_orders');
-        } else {
-
-            $error = "Username Or Password is Wrong!!!";
-        }
+        $error = "Username Or Password is Wrong!!!";
     }
 }
 _cg("page_title", "Login");
