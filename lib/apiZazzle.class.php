@@ -45,8 +45,8 @@ class apiZazzle extends apiCore {
         $content = $this->doCall($this->prepareApiUrl());
         $xmlData = simplexml_load_string($content);
 
-		
-		
+
+
         $messages = $xmlData->xpath("//Response/Result/Messages/Message");
         foreach ($messages as $each_message) {
             $insert_data = array();
@@ -68,7 +68,7 @@ class apiZazzle extends apiCore {
         $xmlData = simplexml_load_string($content);
 
         $orders = $xmlData->xpath("//Response/Result/Orders/Order");
-        
+
         //d($orders);
         //die;
 
@@ -96,7 +96,6 @@ class apiZazzle extends apiCore {
             );
 
             //$this->ackOrder($orderId);
-
 //            $orderExists = qs("select order_id from orders where order_id = '{$orderId}' ");
 //            if (empty($orderExists)) {
 //                $orderId = qi("orders", $orderDataArray);
@@ -107,7 +106,7 @@ class apiZazzle extends apiCore {
             $lineItems = $each_order->LineItems->LineItem;
 
             foreach ($lineItems as $each_item) {
-                d((array)$each_item->Previews->PreviewFile);
+
                 die;
                 $itemData = array(
                     'LineItemId' => $each_item->LineItemId,
@@ -120,8 +119,37 @@ class apiZazzle extends apiCore {
                     'ProductId' => $each_item->ProductId,
 //                    'PrintFiles' => $each_item->PrintFiles->PrintFile->Url,
 //                    'Previews' => $each_item->Previews->PreviewFile->Url
-                    
                 );
+
+                $printFiles = ((array) $each_item->PrintFiles->xpath('PrintFile'));
+                $previewFiles = (array) $each_item->Previews->xpath('PreviewFile');
+
+
+                foreach ($printFiles as $each_file) {
+                    $query = "select * from order_print_files where order_id = '{$orderId}' AND file_type = 'print' AND file_description = '{$each_file->Description}' ";
+                    $print_file_data = qs($query);
+
+                    $print_file_db_data = array();
+                    $print_file_db_data['file_description'] = $each_file->Description;
+                    $print_file_db_data['Url'] = $each_file->Description;
+                    $print_file_db_data['file_type'] = 'print';
+
+                    if (empty($data)) {
+                        qi('order_print_files', $print_file_db_data);
+                    } else {
+                        qu('order_print_files', $print_file_db_data, " id =  '{$print_file_data['id']}'  ");
+                    }
+                }
+
+
+                foreach ($printFiles as $each_file) {
+                    d($previewFiles);
+                }
+
+
+
+
+
 
 //                $itemExists = qs("select LineItemId from order_items where LineItemId = '{$itemData['LineItemId']}' ");
 //                if (!empty($itemExists)) {
@@ -131,7 +159,6 @@ class apiZazzle extends apiCore {
 //                }
             }
         }
-
     }
 
     /**
