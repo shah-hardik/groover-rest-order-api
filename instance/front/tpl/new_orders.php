@@ -1,4 +1,4 @@
-<?php //include "new_orders_filter.php";             ?>
+<?php //include "new_orders_filter.php";                       ?>
 <div class="row">
     <div  class="col-md-12 col-lg-12 ">
         <button class="btn btn-success" onclick="doUpdateOrders()"><i class="fa fa-refresh">&nbsp;</i> Get New Orders</button>
@@ -54,11 +54,26 @@
                                 <table class="table table-no-hover table-bordered table-condensed">
                                     <?php foreach ($items as $each_item): ?>
                                         <tr>
-                                            <td><img src="<?php print $each_item['Previews'] ?>" width="50" /></td>
-                                            <td><?php print $each_item['LineItemId'] ?></td>
-                                            <td><?php print $each_item['Description'] ?></td>
-                                            <td><?php print $each_item['Quantity'] ?></td>
-                                            <td><a class="label label-warning" style="cursor:pointer;font-size:10px;" target='_blank' href='<?php print $each_item['Previews'] ?>'><i class="fa fa-download">&nbsp;</i>Download</a></td>
+                                            <td>
+                                                <?php $previews = q("select * from order_print_files where order_id = '{$each_order['order_id']}' AND file_type = 'preview' "); ?>
+                                                <?php foreach ($previews as $each_preview): ?>
+                                                    <div class="col-lg-2">
+                                                        <div style="border-bottom:1px dotted #DADADA"><?php print strtoupper($each_preview['file_description']) ?> </div>
+                                                        <div><img src='<?php print $each_preview['file_url'] ?>' width="100" /></div>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </td>
+                                            <td>
+												<div><!--<?php print $each_item['LineItemId'] ?></div>
+												<div><?php print $each_item['Description'] ?></div>
+												<div><?php print $each_item['Quantity'] ?>--></div>
+												<div><?php $previews = q("select * from order_print_files where order_id = '{$each_order['order_id']}' AND file_type = 'print' "); ?>
+                                                <?php foreach ($previews as $each_preview): ?>
+                                                    <div style="margin-bottom:5px">
+                                                        <a class="label label-warning" style="cursor:pointer;font-size:10px;" target='_blank' href='<?php print $each_preview['file_url'] ?>'><i class="fa fa-download">&nbsp;</i><?php print ucwords($each_preview['file_description']) ?> Artwork Download</a>
+                                                    </div>
+                                                <?php endforeach; ?></div>
+											</td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </table>
@@ -69,12 +84,10 @@
                             <td>
                                 <div class="row">
                                     <div class="col-lg-9">
-                                        <input class="form-control " type="text"  placeholder="Weight" id="weight_<?php print $each_order['id'] ?>" value="<?php print $each_order['weight'] ?>" />
+                                        <input class="form-control " type="text"  placeholder="Weight" id="weight_<?php print $each_order['id'] ?>" value="<?php print $each_order['weight'] ? $each_order['weight'] : "0.1" ?>" />
                                     </div>
                                 </div>
-
                                 <button style="margin-top:4px" class="btn btn-success btn-small" type="button" value="Save" onclick="saveWeight(<?php print $each_order['id'] ?>);" > Save </button>
-
                             </td>
                             <td><a class="label label-default" target='_blank' href="<?php print _U ?>generate_shipping_label?order_id=<?php print $each_order['order_id'] ?>" style="cursor:pointer;font-size:10px;"><i class="fa fa-print">&nbsp;</i>Print</a></td>
                             <td>
@@ -84,7 +97,7 @@
                                         <div style='magin:3px 0px;border-bottom:1px dotted #ECECEC'><?php print $each_message['message'] ?></div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <span style="color:red;font-size:small;">No messages retrieved yet.</span>
+                                    <span style="color:red;font-size:small;"></span>
                                 <?php endif; ?>
                             </td>
                             <td>&nbsp;</td>

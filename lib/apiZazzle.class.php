@@ -37,7 +37,7 @@ class apiZazzle extends apiCore {
         $this->params['action'] = 'accept';
         $this->params['hash'] = md5($this->vendorid . $order_id . 'new' . $this->secret);
 
-        $content = $this->doCall($this->prepareApiUrl());
+        //$content = $this->doCall($this->prepareApiUrl());
     }
 
     public function ListOrderMessages() {
@@ -69,12 +69,12 @@ class apiZazzle extends apiCore {
 
         $orders = $xmlData->xpath("//Response/Result/Orders/Order");
 
-        //d($orders);
-        //die;
+//        d($orders);
+//        die;
 
         foreach ($orders as $each_order) {
 
-            $orderId = $each_order->OrderId;
+            $order_id = $orderId = $each_order->OrderId;
             $orderDate = date('Y-m-d H:i:s', strtotime($each_order->OrderDate));
 
             $orderDataArray = array(
@@ -95,19 +95,18 @@ class apiZazzle extends apiCore {
                 'Type' => $each_order->ShippingAddress->Type
             );
 
-            //$this->ackOrder($orderId);
-//            $orderExists = qs("select order_id from orders where order_id = '{$orderId}' ");
-//            if (empty($orderExists)) {
-//                $orderId = qi("orders", $orderDataArray);
-//            } else {
-//                qu("orders", $orderDataArray, " order_id = '{$orderId}' ");
-//            }
+            $this->ackOrder($orderId);
+            $orderExists = qs("select order_id from orders where order_id = '{$orderId}' ");
+            if (empty($orderExists)) {
+                $orderId = qi("orders", $orderDataArray);
+            } else {
+                qu("orders", $orderDataArray, " id = '{$orderExists['id']}' ");
+            }
 
             $lineItems = $each_order->LineItems->LineItem;
 
             foreach ($lineItems as $each_item) {
 
-                die;
                 $itemData = array(
                     'LineItemId' => $each_item->LineItemId,
                     'OrderId' => $each_item->OrderId,
@@ -126,15 +125,18 @@ class apiZazzle extends apiCore {
 
 
                 foreach ($printFiles as $each_file) {
-                    $query = "select * from order_print_files where order_id = '{$orderId}' AND file_type = 'print' AND file_description = '{$each_file->Description}' ";
+                    $query = "select * from order_print_files where order_id = '{$order_id}' AND file_type = 'print' AND file_description = '{$each_file->Description}' ";
                     $print_file_data = qs($query);
 
                     $print_file_db_data = array();
                     $print_file_db_data['file_description'] = $each_file->Description;
-                    $print_file_db_data['Url'] = $each_file->Description;
+                    $print_file_db_data['file_url'] = $each_file->Url;
                     $print_file_db_data['file_type'] = 'print';
+                    $print_file_db_data['order_id'] = $order_id;
+                    
+                    //d($print_file_db_data);
 
-                    if (empty($data)) {
+                    if (empty($print_file_data)) {
                         qi('order_print_files', $print_file_db_data);
                     } else {
                         qu('order_print_files', $print_file_db_data, " id =  '{$print_file_data['id']}'  ");
@@ -142,21 +144,29 @@ class apiZazzle extends apiCore {
                 }
 
 
-                foreach ($printFiles as $each_file) {
-                    d($previewFiles);
+                foreach ($previewFiles as $each_file) {
+                    print $query = "select * from order_print_files where order_id = '{$order_id}' AND file_type = 'preview' AND file_description = '{$each_file->Description}' ";
+                    $preview_file_data = qs($query);
+
+                    $preview_file_db_data = array();
+                    $preview_file_db_data['file_description'] = $each_file->Description;
+                    $preview_file_db_data['file_url'] = $each_file->Url;
+                    $preview_file_db_data['file_type'] = 'preview';
+                    $preview_file_db_data['order_id'] = $order_id;
+
+                    if (empty($preview_file_data)) {
+                        qi('order_print_files', $preview_file_db_data);
+                    } else {
+                        qu('order_print_files', $preview_file_db_data, " id =  '{$preview_file_data['id']}'  ");
+                    }
                 }
 
-
-
-
-
-
-//                $itemExists = qs("select LineItemId from order_items where LineItemId = '{$itemData['LineItemId']}' ");
-//                if (!empty($itemExists)) {
-//                    qu("order_items", $itemData, " LineItemId = '{$itemData['LineItemId']}' ");
-//                } else {
-//                    qi("order_items", $itemData);
-//                }
+                $itemExists = qs("select LineItemId from order_items where LineItemId = '{$itemData['LineItemId']}' ");
+                if (!empty($itemExists)) {
+                    qu("order_items", $itemData, " LineItemId = '{$itemExists['id']}' ");
+                } else {
+                    qi("order_items", $itemData);
+                }
             }
         }
     }

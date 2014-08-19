@@ -8,7 +8,7 @@
  * 
  */
 d("Starting Manual Sync");
-_errors_on();
+//_errors_on();
 
 $api = new apiZazzle();
 $api->importOrders();
