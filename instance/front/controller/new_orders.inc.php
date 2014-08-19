@@ -5,7 +5,7 @@
   Order Date, Order ID, Ship To, Order Items, Artwork, Packing Sheet, Weight, Shipping Label, Messages, Updates.
  */
 $urlArgs = _cg("url_vars");
-$orders = q("select * from orders ");
+$orders = q("select * from orders order by order_date DESC ");
 
 if ($_REQUEST['newOrders'] == 1) {
     $api = new apiZazzle();

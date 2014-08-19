@@ -125,7 +125,7 @@ class apiZazzle extends apiCore {
 
 
                 foreach ($printFiles as $each_file) {
-                    $query = "select * from order_print_files where order_id = '{$order_id}' AND file_type = 'print' AND file_description = '{$each_file->Description}' ";
+                    $query = "select * from order_print_files where order_id = '{$order_id}' and line_item_id = '{$each_item->LineItemId}' AND file_type = 'print' AND file_description = '{$each_file->Description}' ";
                     $print_file_data = qs($query);
 
                     $print_file_db_data = array();
@@ -133,7 +133,8 @@ class apiZazzle extends apiCore {
                     $print_file_db_data['file_url'] = $each_file->Url;
                     $print_file_db_data['file_type'] = 'print';
                     $print_file_db_data['order_id'] = $order_id;
-                    
+                    $print_file_db_data['line_item_id'] = $each_item->LineItemId;
+
                     //d($print_file_db_data);
 
                     if (empty($print_file_data)) {
@@ -145,7 +146,7 @@ class apiZazzle extends apiCore {
 
 
                 foreach ($previewFiles as $each_file) {
-                    print $query = "select * from order_print_files where order_id = '{$order_id}' AND file_type = 'preview' AND file_description = '{$each_file->Description}' ";
+                    $query = "select * from order_print_files where order_id = '{$order_id}' and line_item_id = '{$each_item->LineItemId}' AND file_type = 'preview' AND file_description = '{$each_file->Description}' ";
                     $preview_file_data = qs($query);
 
                     $preview_file_db_data = array();
@@ -153,6 +154,7 @@ class apiZazzle extends apiCore {
                     $preview_file_db_data['file_url'] = $each_file->Url;
                     $preview_file_db_data['file_type'] = 'preview';
                     $preview_file_db_data['order_id'] = $order_id;
+                    $preview_file_db_data['line_item_id'] = $each_item->LineItemId;
 
                     if (empty($preview_file_data)) {
                         qi('order_print_files', $preview_file_db_data);
