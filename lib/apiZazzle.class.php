@@ -70,8 +70,8 @@ class apiZazzle extends apiCore {
 
         $orders = $xmlData->xpath("//Response/Result/Orders/Order");
 
-        d($orders);
-        die;
+//        d($orders);
+//        die;
 
         foreach ($orders as $each_order) {
 
@@ -171,7 +171,7 @@ class apiZazzle extends apiCore {
 
                     $packing_file_db_data = array();
                     $packing_file_db_data['file_description'] = $each_file->PageNumber;
-                    $packing_file_db_data['file_url'] = $each_file->Url;
+                    $packing_file_db_data['file_url'] = $each_file->Front->Url;
                     $packing_file_db_data['file_type'] = 'packingSheet';
                     $packing_file_db_data['order_id'] = $order_id;
 
