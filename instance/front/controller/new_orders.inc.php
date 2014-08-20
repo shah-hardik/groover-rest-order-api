@@ -5,8 +5,20 @@
   Order Date, Order ID, Ship To, Order Items, Artwork, Packing Sheet, Weight, Shipping Label, Messages, Updates.
  */
 $urlArgs = _cg("url_vars");
-$orders = q("select * from orders order by order_date DESC ");
+$orders = q("select * from orders where archive = '0' order by order_date DESC ");
 
+if ($_REQUEST['doArchive'] == 1) {
+    $order_ids = "'" . implode("','", $_REQUEST['orderIds']) . "'";
+    $query = "update orders set archive = '1' where order_id in ({$order_ids}) ";
+    q($query);
+    die("Good");
+}
+if ($_REQUEST['removeArchive'] == 1) {
+    $order_ids = "'" . implode("','", $_REQUEST['orderIds']) . "'";
+    $query = "update orders set archive = '0' where order_id in ({$order_ids}) ";
+    q($query);
+    die("Good");
+}
 if ($_REQUEST['newOrders'] == 1) {
     $api = new apiZazzle();
     $api->importOrders();

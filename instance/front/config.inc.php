@@ -4,6 +4,7 @@ $auth_pages = array();
 $auth_pages[] = "home";
 
 
+
 if ($_REQUEST['logout']) {
     User::killSession();
 }

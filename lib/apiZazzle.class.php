@@ -65,12 +65,13 @@ class apiZazzle extends apiCore {
             $_SESSION['payload'] = $content = $this->doCall($this->prepareApiUrl());
         }
         $content = $_SESSION['payload'];
+
         $xmlData = simplexml_load_string($content);
 
         $orders = $xmlData->xpath("//Response/Result/Orders/Order");
 
-//        d($orders);
-//        die;
+        d($orders);
+        die;
 
         foreach ($orders as $each_order) {
 
@@ -122,6 +123,7 @@ class apiZazzle extends apiCore {
 
                 $printFiles = ((array) $each_item->PrintFiles->xpath('PrintFile'));
                 $previewFiles = (array) $each_item->Previews->xpath('PreviewFile');
+                $packingSheets = (array) $each_order->PackingSheet->xpath('Page');
 
 
                 foreach ($printFiles as $each_file) {
@@ -163,6 +165,23 @@ class apiZazzle extends apiCore {
                     }
                 }
 
+                foreach ($packingSheets as $each_file) {
+                    $query = "select * from order_print_files where order_id = '{$order_id}' AND file_type = 'packingSheet' AND file_description = '{$each_file->PageNumber}' ";
+                    $packing_file_data = qs($query);
+
+                    $packing_file_db_data = array();
+                    $packing_file_db_data['file_description'] = $each_file->PageNumber;
+                    $packing_file_db_data['file_url'] = $each_file->Url;
+                    $packing_file_db_data['file_type'] = 'packingSheet';
+                    $packing_file_db_data['order_id'] = $order_id;
+
+                    if (empty($packing_file_data)) {
+                        qi('order_print_files', $packing_file_db_data);
+                    } else {
+                        qu('order_print_files', $packing_file_db_data, " id =  '{$packing_file_data['id']}'  ");
+                    }
+                }
+
                 $itemExists = qs("select LineItemId from order_items where LineItemId = '{$itemData['LineItemId']}' ");
                 if (!empty($itemExists)) {
                     qu("order_items", $itemData, " LineItemId = '{$itemExists['id']}' ");
@@ -184,7 +203,7 @@ class apiZazzle extends apiCore {
      * 
      * MD5 (Vendor ID+orderid+weight+format+Secret Key)
      */
-    public function generateLabel($order_id) {
+    public function generateLabel($order_id, $type = 'Label') {
         $orderData = qs("select * from  orders where order_id = '{$order_id}' ");
         $weight = $orderData['weight'];
 
@@ -199,12 +218,14 @@ class apiZazzle extends apiCore {
         $content = $this->doCall($this->prepareApiUrl());
 
 
-
         $xmlData = simplexml_load_string($content);
         $labelData = $xmlData->xpath("//Response/Result/ShippingInfo/ShippingDocuments/ShippingDocument");
 
+        $url = "";
         foreach ($labelData as $value) {
-            $url = $value->Url;
+            if ($value->Type == $type) {
+                $url = $value->Url;
+            }
         }
 
         return $url;

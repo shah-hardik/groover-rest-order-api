@@ -1,6 +1,6 @@
 <?php include "jquery_ui.php"; ?>
 <?php include "paggingDataTable.php"; ?>
-<?php //include "jquery_timepicker.php";     ?>
+<?php //include "jquery_timepicker.php";                 ?>
 <script type="text/javascript" >
 
     var searchParams = {};
@@ -82,4 +82,50 @@
             }
         });
     }
+
+    function doArchive() {
+        if ($(".chkAll:checked").length > 0) {
+            var orderIds = [];
+            $(".chkAll:checked").each(function(index, element) {
+                orderIds.push($(element).val());
+                $("#row_" + $(element).val()).hide();
+            });
+            showWait('Archiving the orders. ');
+            $.ajax({
+                type: 'post',
+                url: _U + 'new_orders',
+                data: {doArchive: 1, orderIds: orderIds},
+                success: function(r) {
+                    $("#_genericPopup .modal-body").html('<strong>Orders archived successfully. </strong>');
+                    setTimeout(function() {
+                        hideWait();
+                    }, 2000)
+                }
+            });
+        }
+    }
+
+    function doUnArchive() {
+        if ($(".chkAll:checked").length > 0) {
+            var orderIds = [];
+            $(".chkAll:checked").each(function(index, element) {
+                orderIds.push($(element).val());
+                $("#row_" + $(element).val()).hide();
+            });
+            showWait('Removing orders from archive. ');
+            $.ajax({
+                type: 'post',
+                url: _U + 'new_orders',
+                data: {removeArchive: 1, orderIds: orderIds},
+                success: function(r) {
+                    $("#_genericPopup .modal-body").html('<strong>Orders removed from archived. </strong>');
+                    setTimeout(function() {
+                        hideWait();
+                    }, 2000)
+                }
+            });
+        }
+    }
+
+
 </script>
