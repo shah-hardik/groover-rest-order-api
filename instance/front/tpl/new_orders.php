@@ -24,14 +24,15 @@
                     <tr>
                         <th><input type="checkbox"  onclick="doCheckAll(this.checked)"/></th>
                         <th>Order Date</th>
-                        <th>Order ID</th>
-                        <th>Ship To</th>
+                        
+                       <th>Ship To</th>
+                        <th></th>
                         <th style="text-align: center">Order Items</th>
                         <th>Packing Sheet</th>
                         <th>Weight</th>
                         <th>Shipping Label</th>
                         <th>Messages</th>
-                        <th>Updates</th>
+                   <!--     <th>Updates</th>-->
                     </tr>
                 </thead>
                 <tbody id="orderlistId">
