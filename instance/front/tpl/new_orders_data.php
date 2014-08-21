@@ -22,7 +22,7 @@
                             <?php foreach ($previews as $each_preview): ?>
                                 <div class="">
                                     <div style="text-align:center;font-size:9px;margin-bottom:10px;border-bottom:1px dotted #DADADA"><?php print strtoupper($each_preview['file_description']) ?> </div>
-                                    <div style="text-align: center"><img src='<?php print $each_preview['file_url']        ?>' width="100" /></div>
+                                    <div style="text-align: center"><img src='<?php //print $each_preview['file_url']        ?>' width="100" /></div>
                                 </div>
                             <?php endforeach; ?>
                         </td>
@@ -39,7 +39,7 @@
                                 <?php $previews = q("select * from order_print_files where order_id = '{$each_order['order_id']}' AND line_item_id = '{$each_item['LineItemId']}' AND file_type = 'print' "); ?>
                                 <?php foreach ($previews as $each_preview): ?>
                                     <div style="margin-bottom:5px">
-                                        <a class="label label-warning" style="cursor:pointer;font-size:10px;" target='_blank' href='<?php print $each_preview['file_url'] ?>'><i class="fa fa-download">&nbsp;</i><?php print ucwords($each_preview['file_description']) ?> Artwork Download</a>
+                                        <a class="label label-warning" style="cursor:pointer;font-size:10px;"  href='<?php print _U . "generate_artwork?fid=" .$each_preview['id'] ?>'><i class="fa fa-download">&nbsp;</i><?php print ucwords($each_preview['file_description']) ?> Artwork Download</a>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
