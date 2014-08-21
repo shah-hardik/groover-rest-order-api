@@ -23,8 +23,8 @@
                 <thead>
                     <tr>
                         <th><input type="checkbox"  onclick="doCheckAll(this.checked)"/></th>
-                        <th>Order Date</th>
-                        
+                        <th>Order Info</th>
+                       
                        <th>Ship To</th>
                        
                         <th style="text-align: center">Order Items</th>
