@@ -26,12 +26,13 @@
                         <th>Order Date</th>
                         
                        <th>Ship To</th>
-                        <th></th>
+                       
                         <th style="text-align: center">Order Items</th>
                         <th>Packing Sheet</th>
                         <th>Weight</th>
                         <th>Shipping Label</th>
                         <th>Messages</th>
+                         <th></th>
                    <!--     <th>Updates</th>-->
                     </tr>
                 </thead>
