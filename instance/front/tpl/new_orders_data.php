@@ -22,7 +22,7 @@
                             <?php foreach ($previews as $each_preview): ?>
                                 <div class="">
                                     <div style="text-align:center;font-size:9px;margin-bottom:10px;border-bottom:1px dotted #DADADA"><?php print strtoupper($each_preview['file_description']) ?> </div>
-                                    <div style="text-align: center"><img src='<?php //print $each_preview['file_url']        ?>' width="100" /></div>
+                                    <div style="text-align: center"><img src='<?php print $each_preview['file_url']        ?>' width="100" /></div>
                                 </div>
                             <?php endforeach; ?>
                         </td>
