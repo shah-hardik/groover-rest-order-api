@@ -37,7 +37,7 @@ class apiZazzle extends apiCore {
         $this->params['action'] = 'accept';
         $this->params['hash'] = md5($this->vendorid . $order_id . 'new' . $this->secret);
 
-        //$content = $this->doCall($this->prepareApiUrl());
+        $content = $this->doCall($this->prepareApiUrl());
     }
 
     public function ListOrderMessages() {
