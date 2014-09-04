@@ -3,7 +3,14 @@
 <div class="panel panel-default ">
     <div class="panel-heading col-md-12 col-lg-12">
 
-        <div style="float:left;padding-top:8px"><b>List of Archived Orders</b></div> 
+        <div style="float:left;padding-top:8px"><b>List of Archived Orders</b>
+        <span id="next_page_no" class="hide">0</span>
+            <span id="countdata" class="hide"><?php print $length; ?></span>
+
+            <span id="prebtn" class="btn btn-default" onclick="getPrerecord();"><i class="fa fa-chevron-left"></i></span>
+	    <span id="nextbtn" class="btn btn-default" onclick="getNextrecord();"><i class="fa fa-chevron-right"></i></span>&nbsp;
+
+        </div> 
         <div style="float:right"></div> 
         <div class="clearfix"></div>
     </div>
@@ -16,6 +23,7 @@
                 <thead>
                     <tr>
                         <th><input type="checkbox"  onclick="doCheckAll(this.checked)"/></th>
+                        <th></th>
                         <th>Order Date</th>
                         <th>Order ID</th>
                         <th>Ship To</th>

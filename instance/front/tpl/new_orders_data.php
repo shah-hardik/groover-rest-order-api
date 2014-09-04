@@ -1,6 +1,8 @@
+<?php $cr = 1; ?>
 <?php foreach ($orders as $each_order): ?>
     <tr id="row_<?php print $each_order['order_id']; ?>">
         <td><input type="checkbox" class="chkAll" value="<?php print $each_order['order_id'] ?>" /></td>
+        <td><?php  print $cr;?></td>
         <td><strong>Order Date </strong><br> <?php print date("d/m/Y", strtotime($each_order['order_date'])) ?><br> <br>  <strong>Order Id </strong>    <br><?php print $each_order['order_id'] ?>  </td>
      <!--   <td><?php print $each_order['order_id'] ?></td>-->
         <td>
