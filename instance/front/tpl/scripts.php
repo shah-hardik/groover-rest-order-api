@@ -2,7 +2,8 @@
     var _U = '<?php print _U ?>';
 
     function showWait(msg) {
-        msg = typeof msg == undefined ? "Please wait... "  : msg;
+        //msg = typeof msg == undefined ? "Please wait... "  : msg;
+        msg = "Please wait... ";
         $("#_genericPopup .modal-footer,#_genericPopup .modal-header").hide();
         $("#_genericPopup .modal-body").html(msg + ' <i class="fa fa-refresh fa-spin">&nbsp;</i>').css("height", "60px");
         $("#_genericPopup").modal("show")

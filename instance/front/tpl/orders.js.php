@@ -1,5 +1,5 @@
 <?php include "jquery_ui.php"; ?>
-<?php include "paggingDataTable.php"; ?>
+<?php //include "paggingDataTable.php"; ?>
 <?php //include "jquery_timepicker.php";                 ?>
 <script type="text/javascript" >
 
