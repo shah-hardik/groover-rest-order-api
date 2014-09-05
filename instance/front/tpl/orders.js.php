@@ -10,7 +10,7 @@
             "info": false
         });
 
-
+ $('#prebtn').attr("disabled",true);
         searchParams = {
             filter: '<?php print $urlArgs[1] ?>',
             date: ''
@@ -34,6 +34,47 @@
             $(".breakdowns").hide();
         });
     });
+    function getNextrecord(){
+         $("#prebtn").attr('disabled',false);
+        var page_no = $("#next_page_no").html();
+        $("#next_page_no").html(parseInt(page_no) + parseInt(10));
+        page_no = $("#next_page_no").html();
+	
+      if(page_no > $("#countdata").html())
+          {
+             $("#nextbtn").attr('disabled',true);
+          }
+        showWait();
+        $.ajax({
+            url:_U+'archived_orders',
+            data:{Nextrecord:1,Limit:page_no},
+            success:function(r){
+                hideWait();
+                $("#orderlistId").html(r);
+                //$("#next_page_no").html(parseInt(page_no) + parseInt(10));
+            }
+        });
+    }
+    function getPrerecord(){
+     $("#nextbtn").attr('disabled',false);
+        var page_no = $("#next_page_no").html();
+        $("#next_page_no").html(parseInt(page_no) - parseInt(10));
+        page_no = $("#next_page_no").html();
+        if(page_no == 0){
+           $("#prebtn").attr('disabled',true);
+        }
+        showWait();
+        $.ajax({
+            url:_U+'archived_orders',
+            data:{Nextrecord:1,Limit:page_no},
+            success:function(r){
+                hideWait();
+                $("#orderlistId").html(r);
+                //$("#next_page_no").html(parseInt(page_no) - parseInt(10));
+            }
+        });
+    }
+    
     function saveWeight(id) {
         showWait('Please wait while we save weight..');
         var val = $("#weight_" + id).val();
