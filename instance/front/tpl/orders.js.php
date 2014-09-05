@@ -1,16 +1,17 @@
 <?php include "jquery_ui.php"; ?>
-<?php //include "paggingDataTable.php"; ?>
+<?php include "paggingDataTable.php"; ?>
 <?php //include "jquery_timepicker.php";                 ?>
 <script type="text/javascript" >
 
     var searchParams = {};
     $(document).ready(function() {
-        $("#table").dataTable({
-            "ordering": false,
-            "info": false
-        });
+//        $("#table").dataTable({
+//            "ordering": false,
+//            "info": false
+//        });
 
  $('#prebtn').attr("disabled",true);
+ $('#prebtndown').attr("disabled",true);
         searchParams = {
             filter: '<?php print $urlArgs[1] ?>',
             date: ''
@@ -36,6 +37,7 @@
     });
     function getNextrecord(){
          $("#prebtn").attr('disabled',false);
+         $("#prebtndown").attr('disabled',false);
         var page_no = $("#next_page_no").html();
         $("#next_page_no").html(parseInt(page_no) + parseInt(10));
         page_no = $("#next_page_no").html();
@@ -43,6 +45,7 @@
       if(page_no > $("#countdata").html())
           {
              $("#nextbtn").attr('disabled',true);
+             $("#nextbtndown").attr('disabled',true);
           }
         showWait();
         $.ajax({
@@ -57,11 +60,13 @@
     }
     function getPrerecord(){
      $("#nextbtn").attr('disabled',false);
+     $("#nextbtndown").attr('disabled',false);
         var page_no = $("#next_page_no").html();
         $("#next_page_no").html(parseInt(page_no) - parseInt(10));
         page_no = $("#next_page_no").html();
         if(page_no == 0){
            $("#prebtn").attr('disabled',true);
+           $("#prebtndown").attr('disabled',true);
         }
         showWait();
         $.ajax({

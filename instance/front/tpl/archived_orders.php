@@ -43,6 +43,20 @@
             <div>No Archived Orders available</div>
         <?php endif; ?>
     </div>
+    
+     <div class="panel-heading col-md-12 col-lg-12">
+
+        <div style="float:left;padding-top:8px"><b>List of Archived Orders</b>
+        <span id="next_page_no" class="hide">0</span>
+            <span id="countdata" class="hide"><?php print $length; ?></span>
+
+            <span id="prebtndown" class="btn btn-default" onclick="getPrerecord();"><i class="fa fa-chevron-left"></i></span>
+	    <span id="nextbtndown" class="btn btn-default" onclick="getNextrecord();"><i class="fa fa-chevron-right"></i></span>&nbsp;
+
+        </div> 
+        <div style="float:right"></div> 
+        <div class="clearfix"></div>
+    </div>
 </div>
 
 <div  class="col-md-12 col-lg-12 ">&nbsp;</div>
